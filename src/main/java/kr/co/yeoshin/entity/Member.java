@@ -9,12 +9,15 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class MemberEntity {
+public class Member {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String password;
+
+    private String username;
 
     private String email;
 
