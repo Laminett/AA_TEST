@@ -3,6 +3,8 @@ package kr.co.yeoshin.controller;
 import kr.co.yeoshin.entity.Member;
 import kr.co.yeoshin.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,5 +61,17 @@ public class IndexController {
         member.setPassword(encPassword);
         memberRepository.save(member); // 비밀번호 암호화 하지 않으면 시큐리티로 로그인 할 수 없음.
         return "redirect:/loginForm";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/info")
+    public @ResponseBody String info() {
+        return "personal_information";
+    }
+
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/data")
+    public @ResponseBody String data() {
+        return "data";
     }
 }
